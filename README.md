@@ -1,93 +1,92 @@
-# A PyTorch implementation of a YOLO v3 Object Detector
+# 🚦 Adaptive Crosswalk System
 
-[UPDATE] : This repo serves as a driver code for my research. I just graduated college, and am very busy looking for research internship / fellowship roles before eventually applying for a masters. I won't have the time to look into issues for the time being. Thank you.
+**Adaptive Crosswalk** is a smart traffic management solution designed to enhance pedestrian safety and optimize crosswalk efficiency in smart cities. It utilizes real-time data from RGB and thermal cameras, communicates with autonomous vehicles using V2I (Vehicle-to-Infrastructure), and dynamically adjusts pedestrian signals based on environmental conditions and pedestrian presence.
 
+---
 
-This repository contains code for a object detector based on [YOLOv3: An Incremental Improvement](https://pjreddie.com/media/files/papers/YOLOv3.pdf), implementedin PyTorch. The code is based on the official code of [YOLO v3](https://github.com/pjreddie/darknet), as well as a PyTorch 
-port of the original code, by [marvis](https://github.com/marvis/pytorch-yolo2). One of the goals of this code is to improve
-upon the original port by removing redundant parts of the code (The official code is basically a fully blown deep learning 
-library, and includes stuff like sequence models, which are not used in YOLO). I've also tried to keep the code minimal, and 
-document it as well as I can. 
+## 🌟 Key Features
 
-### Tutorial for building this detector from scratch
-If you want to understand how to implement this detector by yourself from scratch, then you can go through this very detailed 5-part tutorial series I wrote on Paperspace. Perfect for someone who wants to move from beginner to intermediate pytorch skills. 
+* **Sensor Fusion**: Combines RGB and thermal camera feeds for accurate pedestrian detection in all lighting and weather conditions.
+* **Real-Time Coordination**: Communicates with autonomous vehicles using V2I protocols to manage crosswalk access.
+* **Adaptive Timing**: Dynamically adjusts signal timing based on pedestrian density and vehicle flow.
+* **Smart City Integration**: Can be deployed as part of urban smart infrastructure for scalable traffic management.
 
-[Implement YOLO v3 from scratch](https://blog.paperspace.com/how-to-implement-a-yolo-object-detector-in-pytorch/)
+---
 
-As of now, the code only contains the detection module, but you should expect the training module soon. :) 
+## 🛠️ Technologies Used
 
-## Requirements
-1. Python 3.5
-2. OpenCV
-3. PyTorch 0.4
+* Python
+* OpenCV
+* YOLOv5 (for pedestrian detection)
+* MQTT or HTTP for V2I communication
+* Raspberry Pi or Jetson Nano (Edge processing)
+* RGB + Thermal Camera Modules
 
-Using PyTorch 0.3 will break the detector.
+---
+## 🔗 Pre-trained Weights
 
+You can download the YOLOv3 weights from this official link:
 
+[Download yolov3.weights](https://pjreddie.com/darknet/yolo/)
 
-## Detection Example
+---
+## 🚀 Getting Started
 
-![Detection Example](https://i.imgur.com/m2jwneng.png)
-## Running the detector
+### 1. Clone the Repository
 
-### On single or multiple images
-
-Clone, and `cd` into the repo directory. The first thing you need to do is to get the weights file
-This time around, for v3, authors has supplied a weightsfile only for COCO [here](https://pjreddie.com/media/files/yolov3.weights), and place 
-
-the weights file into your repo directory. Or, you could just type (if you're on Linux)
-
-```
-wget https://pjreddie.com/media/files/yolov3.weights 
-python detect.py --images imgs --det det 
+```bash
+git clone https://github.com/your-username/adaptive-crosswalk.git
+cd adaptive-crosswalk
 ```
 
+### 2. Install Dependencies
 
-`--images` flag defines the directory to load images from, or a single image file (it will figure it out), and `--det` is the directory
-to save images to. Other setting such as batch size (using `--bs` flag) , object threshold confidence can be tweaked with flags that can be looked up with. 
-
-```
-python detect.py -h
+```bash
+pip install -r requirements.txt
 ```
 
-### Speed Accuracy Tradeoff
-You can change the resolutions of the input image by the `--reso` flag. The default value is 416. Whatever value you chose, rememeber **it should be a multiple of 32 and greater than 32**. Weird things will happen if you don't. You've been warned. 
+### 3. Connect Hardware
 
-```
-python detect.py --images imgs --det det --reso 320
-```
+* Connect RGB and thermal cameras to your edge device.
+* Configure camera streams in `config.py`.
 
-### On Video
-For this, you should run the file, video_demo.py with --video flag specifying the video file. The video file should be in .avi format
-since openCV only accepts OpenCV as the input format. 
+### 4. Run the System
 
-```
-python video_demo.py --video video.avi
+```bash
+python main.py
 ```
 
-Tweakable settings can be seen with -h flag. 
+### 5. (Optional) Set Up V2I Communication
 
-### Speeding up Video Inference
+* Configure V2I protocol parameters in `v2i_config.py`
+* Deploy corresponding vehicle-side script or emulator
 
-To speed video inference, you can try using the video_demo_half.py file instead which does all the inference with 16-bit half 
-precision floats instead of 32-bit float. I haven't seen big improvements, but I attribute that to having an older card 
-(Tesla K80, Kepler arch). If you have one of cards with fast float16 support, try it out, and if possible, benchmark it. 
+---
 
-### On a Camera
-Same as video module, but you don't have to specify the video file since feed will be taken from your camera. To be precise, 
-feed will be taken from what the OpenCV, recognises as camera 0. The default image resolution is 160 here, though you can change it with `reso` flag.
-
-```
-python cam_demo.py
-```
-You can easily tweak the code to use different weightsfiles, available at [yolo website](https://pjreddie.com/darknet/yolo/)
-
-NOTE: The scales features has been disabled for better refactoring.
-### Detection across different scales
-YOLO v3 makes detections across different scales, each of which deputise in detecting objects of different sizes depending upon whether they capture coarse features, fine grained features or something between. You can experiment with these scales by the `--scales` flag. 
-
-```
-python detect.py --scales 1,3
-```
+## 📸 Sample Output
+![det_test_image2](https://github.com/user-attachments/assets/730c8362-6df7-4aee-93d5-49fe0fee6101)
 
 
+*Pedestrian detection using fused thermal and RGB data.*
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! To contribute:
+
+* Fork the repo
+* Create a feature branch
+* Submit a Pull Request with a clear description
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 📬 Contact
+
+Have suggestions or questions? Open an issue or reach out via GitHub.
